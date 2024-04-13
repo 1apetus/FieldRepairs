@@ -17,11 +17,11 @@ namespace FieldRepairs.Patches
         {
             if (!__runOriginal) return;
 
-            Mod.Log.Trace?.Write("SAIS:ctor - entered.");
+            Mod.Log.LogDebug("SAIS:ctor - entered.");
 
             if (ModState.SuppressShowActorSequences)
             {
-                Mod.Log.Trace?.Write("Suppressing floaties by forcing camera to false.");
+                Mod.Log.LogDebug("Suppressing floaties by forcing camera to false.");
                 useCamera = false;
             }
         }
@@ -30,7 +30,7 @@ namespace FieldRepairs.Patches
         {
             if (ModState.SuppressShowActorSequences)
             {
-                Mod.Log.Trace?.Write("Suppressing floaties by forcing state to finished.");
+                Mod.Log.LogDebug("Suppressing floaties by forcing state to finished.");
                 __instance.state = ShowActorInfoSequence.SequenceState.Finished;
             }
         }

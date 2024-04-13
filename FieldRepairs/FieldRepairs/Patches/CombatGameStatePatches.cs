@@ -10,7 +10,7 @@
         {
             int themeIdx = Mod.Random.Next(0, Mod.Config.Themes.Count - 1);
             ModState.CurrentTheme = Mod.Config.Themes[themeIdx];
-            Mod.Log.Info?.Write($"Set StateTheme to: {ModState.CurrentTheme}");
+            Mod.Log.LogDebug($"Set StateTheme to: {ModState.CurrentTheme}");
         }
     }
 

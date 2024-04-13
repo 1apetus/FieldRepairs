@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HBS.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace FieldRepairs
@@ -20,52 +21,52 @@ namespace FieldRepairs
              * spawn_poorly_maintained_50
              * spawn_poorly_maintained_75
             */
-            public string Tag = "spawn_poorly_maintained_50";
+            public string Tag = "spawn_poorly_maintained_25";
         }
         public SkirmishConfig Skirmish = new SkirmishConfig();
 
         public class UnitRollCfg
         {
             public int PM25_MinRolls = 1;
-            public int PM25_MaxRolls = 4;
+            public int PM25_MaxRolls = 3;
 
             public int PM50_MinRolls = 2;
-            public int PM50_MaxRolls = 6;
+            public int PM50_MaxRolls = 4;
 
             public int PM75_MinRolls = 3;
-            public int PM75_MaxRolls = 8;
+            public int PM75_MaxRolls = 6;
         }
         public class DamageRollCfg
         {
             public UnitRollCfg MechRolls = new UnitRollCfg()
             {
-                PM25_MinRolls = 1,
-                PM25_MaxRolls = 4,
-                PM50_MinRolls = 2,
-                PM50_MaxRolls = 6,
-                PM75_MinRolls = 3,
-                PM75_MaxRolls = 8
+                PM25_MinRolls = 0,
+                PM25_MaxRolls = 2,
+                PM50_MinRolls = 0,
+                PM50_MaxRolls = 4,
+                PM75_MinRolls = 1,
+                PM75_MaxRolls = 5
             };
 
             public UnitRollCfg VehicleRolls = new UnitRollCfg()
             {
-                PM25_MinRolls = 1,
-                PM25_MaxRolls = 4,
-                PM50_MinRolls = 2,
-                PM50_MaxRolls = 5,
-                PM75_MinRolls = 3,
-                PM75_MaxRolls = 6
+                PM25_MinRolls = 0,
+                PM25_MaxRolls = 2,
+                PM50_MinRolls = 0,
+                PM50_MaxRolls = 3,
+                PM75_MinRolls = 1,
+                PM75_MaxRolls = 4
 
             };
 
             public UnitRollCfg TurretRolls = new UnitRollCfg()
             {
-                PM25_MinRolls = 1,
-                PM25_MaxRolls = 3,
-                PM50_MinRolls = 1,
-                PM50_MaxRolls = 4,
-                PM75_MinRolls = 2,
-                PM75_MaxRolls = 5
+                PM25_MinRolls = 0,
+                PM25_MaxRolls = 2,
+                PM50_MinRolls = 0,
+                PM50_MaxRolls = 3,
+                PM75_MinRolls = 1,
+                PM75_MaxRolls = 4
             };
         }
         public DamageRollCfg DamageRollsConfig = new DamageRollCfg();
@@ -91,8 +92,6 @@ namespace FieldRepairs
 
         public class CCCategories
         {
-            public string Gyros = "Gyro";
-            public string EngineParts = "EnginePart";
             public List<string> Blacklisted = new List<string> { "Armor", "Structure", "CASE", "PositiveQuirk", "Cockpit" };
         }
         public CCCategories CustomComponentCategories = new CCCategories();
@@ -105,16 +104,14 @@ namespace FieldRepairs
             public float MinStructureLoss = 0.1f;
             public float MaxStructureLoss = 0.3f;
 
-            public int MinSkillPenalty = 1;
-            public int MaxSkillPenalty = 3;
+            public int MinSkillPenalty = 0;
+            public int MaxSkillPenalty = 2;
 
             public float MinAmmoRemaining = 0.05f;
             public float MaxAmmoRemaining = 0.25f;
         }
         public HitPenalties PerHitPenalties = new HitPenalties();
 
-        //lets TisButAScratch handle pilot injuries
-        public bool EnableTBAS_Injuries = false;
         //disable injuries for TrooperSquads
         public bool DisableInjuriesForTroopers = true;
         // If true, many logs will be printed
@@ -156,60 +153,58 @@ namespace FieldRepairs
 
         public void LogConfig()
         {
-            Mod.Log.Info?.Write("=== MOD CONFIG BEGIN ===");
-            Mod.Log.Info?.Write($"  DEBUG:{this.Debug} Trace:{this.Trace}");
+            Mod.Log.LogDebug("=== MOD CONFIG BEGIN ===");
+            Mod.Log.LogDebug($"  DEBUG:{this.Debug} Trace:{this.Trace}");
 
-            Mod.Log.Info?.Write(" --- SKIRMISH ---");
-            Mod.Log.Info?.Write($"  TAG: {this.Skirmish.Tag}");
+            Mod.Log.LogDebug(" --- SKIRMISH ---");
+            Mod.Log.LogDebug($"  TAG: {this.Skirmish.Tag}");
 
-            Mod.Log.Info?.Write(" --- DAMAGE ROLLS ---");
-            Mod.Log.Info?.Write($"  MECH ROLLS: ");
-            Mod.Log.Info?.Write($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.MechRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM25_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.MechRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM50_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.MechRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM75_MaxRolls}");
-            Mod.Log.Info?.Write($"  VEHICLE ROLLS: ");
-            Mod.Log.Info?.Write($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.VehicleRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM25_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.VehicleRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM50_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.VehicleRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM75_MaxRolls}");
-            Mod.Log.Info?.Write($"  TURRET ROLLS: ");
-            Mod.Log.Info?.Write($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.TurretRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM25_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.TurretRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM50_MaxRolls}");
-            Mod.Log.Info?.Write($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.TurretRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM75_MaxRolls}");
+            Mod.Log.LogDebug(" --- DAMAGE ROLLS ---");
+            Mod.Log.LogDebug($"  MECH ROLLS: ");
+            Mod.Log.LogDebug($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.MechRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM25_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.MechRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM50_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.MechRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.MechRolls.PM75_MaxRolls}");
+            Mod.Log.LogDebug($"  VEHICLE ROLLS: ");
+            Mod.Log.LogDebug($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.VehicleRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM25_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.VehicleRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM50_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.VehicleRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.VehicleRolls.PM75_MaxRolls}");
+            Mod.Log.LogDebug($"  TURRET ROLLS: ");
+            Mod.Log.LogDebug($"    poorly_maintained_25 -> min: {this.DamageRollsConfig.TurretRolls.PM25_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM25_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_50 -> min: {this.DamageRollsConfig.TurretRolls.PM50_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM50_MaxRolls}");
+            Mod.Log.LogDebug($"    poorly_maintained_75 -> min: {this.DamageRollsConfig.TurretRolls.PM75_MinRolls} / max: {this.DamageRollsConfig.TurretRolls.PM75_MaxRolls}");
 
-            Mod.Log.Info?.Write(" --- CUSTOM COMPONENTS CATEGORIES ---");
-            Mod.Log.Info?.Write($"  Gyros: {this.CustomComponentCategories.Gyros}  " +
-                $"EngineParts: {this.CustomComponentCategories.EngineParts}  " +
-                $"Blacklisted: {String.Join(", ", this.CustomComponentCategories.Blacklisted)}");
+            Mod.Log.LogDebug(" --- CUSTOM COMPONENTS CATEGORIES ---");
+            Mod.Log.LogDebug($"  Blacklisted: {String.Join(", ", this.CustomComponentCategories.Blacklisted)}");
 
-            Mod.Log.Info?.Write(" --- PER HIT PENALTIES ---");
-            Mod.Log.Info?.Write($"  ArmorLoss =>  min: {this.PerHitPenalties.MinArmorLoss} max: {this.PerHitPenalties.MaxArmorLoss}");
-            Mod.Log.Info?.Write($"  StructureLoss =>  min: {this.PerHitPenalties.MinStructureLoss} max: {this.PerHitPenalties.MaxStructureLoss}");
-            Mod.Log.Info?.Write($"  SkillPenalty =>  min: {this.PerHitPenalties.MinSkillPenalty} max: {this.PerHitPenalties.MaxSkillPenalty}");
+            Mod.Log.LogDebug(" --- PER HIT PENALTIES ---");
+            Mod.Log.LogDebug($"  ArmorLoss =>  min: {this.PerHitPenalties.MinArmorLoss} max: {this.PerHitPenalties.MaxArmorLoss}");
+            Mod.Log.LogDebug($"  StructureLoss =>  min: {this.PerHitPenalties.MinStructureLoss} max: {this.PerHitPenalties.MaxStructureLoss}");
+            Mod.Log.LogDebug($"  SkillPenalty =>  min: {this.PerHitPenalties.MinSkillPenalty} max: {this.PerHitPenalties.MaxSkillPenalty}");
 
-            Mod.Log.Info?.Write(" --- THEMES ---");
+            Mod.Log.LogDebug(" --- THEMES ---");
             foreach (ThemeConfig theme in this.Themes)
             {
-                Mod.Log.Info?.Write($"  THEME: {theme.Label}");
-                Mod.Log.Info?.Write($"    MECH WEIGHTS: {String.Join(", ", theme.MechWeights)}");
-                Mod.Log.Info?.Write($"    VEHICLE WEIGHTS: {String.Join(", ", theme.VehicleWeights)}");
-                Mod.Log.Info?.Write($"    TURRET WEIGHTS: {String.Join(", ", theme.TurretWeights)}");
-                Mod.Log.Info?.Write($" ");
+                Mod.Log.LogDebug($"  THEME: {theme.Label}");
+                Mod.Log.LogDebug($"    MECH WEIGHTS: {String.Join(", ", theme.MechWeights)}");
+                Mod.Log.LogDebug($"    VEHICLE WEIGHTS: {String.Join(", ", theme.VehicleWeights)}");
+                Mod.Log.LogDebug($"    TURRET WEIGHTS: {String.Join(", ", theme.TurretWeights)}");
+                Mod.Log.LogDebug($" ");
             }
 
-            Mod.Log.Info?.Write("=== MOD CONFIG END ===");
+            Mod.Log.LogDebug("=== MOD CONFIG END ===");
         }
 
         public void Init()
         {
-            Mod.Log.Debug?.Write(" == Initializing Configuration");
+            Mod.Log.LogDebug(" == Initializing Configuration");
 
             foreach (ThemeConfig themeConfig in Themes)
             {
-                Mod.Log.Debug?.Write($" -- {themeConfig.Label} ");
+                Mod.Log.LogDebug($" -- {themeConfig.Label} ");
                 WeightToDamageType(themeConfig);
             }
 
-            Mod.Log.Debug?.Write(" == Configuration Initialized");
+            Mod.Log.LogDebug(" == Configuration Initialized");
         }
 
         // Translate the strings in the config to enum types

@@ -61,18 +61,6 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <Private>False</Private>
     </Reference>
-    <Reference Include="CustomComponents">
-      <HintPath>$(DeployedModPath)\..\CustomComponents\CustomComponents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="IRBTModUtils">
-      <HintPath>$(DeployedModPath)\..\IRBTModUtils\IRBTModUtils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MechEngineer">
-      <HintPath>$(DeployedModPath)\..\MechEngineer\MechEngineer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <Private>False</Private>
     </Reference>

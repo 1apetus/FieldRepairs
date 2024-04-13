@@ -9,8 +9,6 @@
         Weapon,
         AmmoBox,
         HeatSink,
-        Engine,
-        Gyro,
         Skill
     }
 }

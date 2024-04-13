@@ -15,7 +15,7 @@ namespace FieldRepairs.Patches
 
             if (ModState.SuppressShowActorSequences)
             {
-                Mod.Log.Debug?.Write("Suppressing pathfinder updates and visiblity updates during damage call.");
+                Mod.Log.LogDebug("Suppressing pathfinder updates and visiblity updates during damage call.");
                 __instance.markEffects.Remove(effect);
 
                 if (effect.EffectData.targetingData.specialRules == AbilityDef.SpecialRules.Aura)

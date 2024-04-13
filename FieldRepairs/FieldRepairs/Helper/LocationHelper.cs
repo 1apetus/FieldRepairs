@@ -1,4 +1,6 @@
-﻿namespace FieldRepairs.Helper
+﻿using HBS.Logging;
+
+namespace FieldRepairs.Helper
 {
 
     public static class LocationHelper
@@ -28,7 +30,7 @@
             else if (locationIdx <= 86) location = ArmorLocation.LeftLeg;
             else if (locationIdx <= 99) location = ArmorLocation.RightLeg;
 
-            Mod.Log.Trace?.Write($" - Returning random location: {location}");
+            Mod.Log.LogDebug($" - Returning random location: {location}");
             return location;
         }
 
@@ -47,7 +49,7 @@
             else if (locationIdx <= 86) location = ChassisLocations.LeftLeg;
             else if (locationIdx <= 99) location = ChassisLocations.RightLeg;
 
-            Mod.Log.Trace?.Write($" - Returning random location: {location}");
+            Mod.Log.LogDebug($" - Returning random location: {location}");
             return location;
         }
 
@@ -67,7 +69,7 @@
             else if (locationIdx <= 83) location = isFront ? VehicleChassisLocations.Front : VehicleChassisLocations.Rear;
             else if (locationIdx <= 99) location = VehicleChassisLocations.Turret;
 
-            Mod.Log.Trace?.Write($" - Returning random location: {location}");
+            Mod.Log.LogDebug($" - Returning random location: {location}");
             return location;
         }
 

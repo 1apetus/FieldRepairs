@@ -1,8 +1,6 @@
-﻿using FieldRepairs.Helper;
-using HBS.Logging;
+﻿using HBS.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -17,7 +15,6 @@ namespace FieldRepairs
         public const string LogLabel = "FLDREPAIR";
 
         public static ILog Log;
-        private static FileLogAppender LogAppender;
         public static string ModDir;
         public static ModConfig Config;
 
@@ -26,13 +23,7 @@ namespace FieldRepairs
         public static void Init(string modDirectory, string settingsJSON)
         {
             ModDir = modDirectory;
-            Dictionary<string, LogLevel> logLevels = new Dictionary<string, LogLevel>
-            {
-                ["FieldRepairs"] = LogLevel.Debug
-            };
-
-            LogManager.Setup(modDirectory + "/FieldRepairs.log", logLevels);
-            Log = LogManager.GetLogger("FieldRepairs");
+            Log = Logger.GetLogger("FieldRepairs");
 
 
             Exception settingsE = null;

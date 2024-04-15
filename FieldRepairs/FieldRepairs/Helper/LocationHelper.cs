@@ -30,7 +30,7 @@ namespace FieldRepairs.Helper
             else if (locationIdx <= 86) location = ArmorLocation.LeftLeg;
             else if (locationIdx <= 99) location = ArmorLocation.RightLeg;
 
-            Mod.Log.LogDebug($" - Returning random location: {location}");
+            Mod.Log.Info?.Write($" - Returning random location: {location}");
             return location;
         }
 
@@ -49,7 +49,7 @@ namespace FieldRepairs.Helper
             else if (locationIdx <= 86) location = ChassisLocations.LeftLeg;
             else if (locationIdx <= 99) location = ChassisLocations.RightLeg;
 
-            Mod.Log.LogDebug($" - Returning random location: {location}");
+            Mod.Log.Info?.Write($" - Returning random location: {location}");
             return location;
         }
 
@@ -69,7 +69,7 @@ namespace FieldRepairs.Helper
             else if (locationIdx <= 83) location = isFront ? VehicleChassisLocations.Front : VehicleChassisLocations.Rear;
             else if (locationIdx <= 99) location = VehicleChassisLocations.Turret;
 
-            Mod.Log.LogDebug($" - Returning random location: {location}");
+            Mod.Log.Info?.Write($" - Returning random location: {location}");
             return location;
         }
 

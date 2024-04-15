@@ -12,7 +12,7 @@ namespace FieldRepairs.Patches
     //[HarmonyPatch(typeof(PoorlyMaintainedEffect), "CreatePoorlyMaintainedEffectData")]
     //public static class PoorlyMaintainedEffect_CreatePoorlyMaintainedEffectData {
     //    static void Postfix(CombatGameConstants constants, float armorReduction, float ammoReduction, ref EffectData __result) {
-    //        Mod.Log.LogDebug("PME:CPMED - entered.");
+    //        Mod.Log.Info?.Write("PME:CPMED - entered.");
     //    }
     //}
 
@@ -21,7 +21,7 @@ namespace FieldRepairs.Patches
     {
         static void Prefix(ref bool __runOriginal, PoorlyMaintainedEffect __instance, Building targetBuilding)
         {
-            Mod.Log.LogDebug("PME:AETB - entered.");
+            Mod.Log.Info?.Write("PME:AETB - entered.");
             //BuildingRepairState repairState = RepairsHelper.GetRepairState(__instance, targetBuilding);
 
             // Note that OnEffectBegin will invoke *every* ApplyEffects, and expects the ApplyEfect to check that the target isn't null. 
@@ -40,7 +40,7 @@ namespace FieldRepairs.Patches
         {
             if (!__runOriginal) return;
 
-            Mod.Log.LogDebug("PME:AETM - entered.");
+            Mod.Log.Info?.Write("PME:AETM - entered.");
 
             // Note that OnEffectBegin will invoke *every* ApplyEffects, and expects the ApplyEfect to check that the target isn't null. 
             if (targetMech == null)
@@ -49,8 +49,7 @@ namespace FieldRepairs.Patches
                 return;
             }
 
-
-            Mod.Log.LogDebug($" Applying PoorlyMaintainedEffect to unit: {targetMech.DisplayName}");
+            Mod.Log.Info?.Write($" Applying PoorlyMaintainedEffect to unit: {targetMech.DisplayName}");
             ModState.SuppressShowActorSequences = true;
 
             WeaponHitInfo hitInfo = new WeaponHitInfo(-1, -1, -1, -1, "", "", -1,
@@ -70,12 +69,12 @@ namespace FieldRepairs.Patches
                         (int)(Mod.Config.PerHitPenalties.MaxAmmoRemaining * 100f)
                         ) / 100f;
                     int newAmmo = (int)Math.Floor(ab.CurrentAmmo * ammoReduction);
-                    Mod.Log.LogDebug($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
+                    Mod.Log.Info?.Write($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
                     ab.StatCollection.Set<int>(ModStats.AmmoBoxCurrentAmmo, newAmmo);
                 }
                 else
                 {
-                    Mod.Log.LogDebug($"Damaging component: {mc.UIName}");
+                    Mod.Log.Info?.Write($"Damaging component: {mc.UIName}");
 
                     ComponentDamageLevel damageLevel = ComponentDamageLevel.Destroyed;
                     if (mc.componentDef.CriticalComponent)
@@ -105,7 +104,7 @@ namespace FieldRepairs.Patches
                 {
                     damage = targetMech.GetCurrentArmor(location);
                 }
-                Mod.Log.LogDebug($"Reducing armor in location {location} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing armor in location {location} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {
@@ -134,7 +133,7 @@ namespace FieldRepairs.Patches
                     // Never allow a hit to completely remove a limb or location
                     damage = targetMech.GetCurrentStructure(location) - 1;
                 }
-                Mod.Log.LogDebug($"Reducing structure in location {location} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing structure in location {location} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {
@@ -209,7 +208,7 @@ namespace FieldRepairs.Patches
         {
             if (!__runOriginal) return;
 
-            Mod.Log.LogDebug("PME:AETT - entered.");
+            Mod.Log.Info?.Write("PME:AETT - entered.");
 
             // Note that OnEffectBegin will invoke *every* ApplyEffects, and expects the ApplyEfect to check that the target isn't null. 
             if (targetTurret == null) 
@@ -218,7 +217,7 @@ namespace FieldRepairs.Patches
                 return;
             }
             
-            Mod.Log.LogDebug($" Applying PoorlyMaintainedEffect to unit: {targetTurret.DisplayName}");
+            Mod.Log.Info?.Write($" Applying PoorlyMaintainedEffect to unit: {targetTurret.DisplayName}");
             ModState.SuppressShowActorSequences = true;
 
             WeaponHitInfo hitInfo = new WeaponHitInfo(-1, -1, -1, -1, "", "", -1,
@@ -237,12 +236,12 @@ namespace FieldRepairs.Patches
                         (int)(Mod.Config.PerHitPenalties.MaxAmmoRemaining * 100f)
                         ) / 100f;
                     int newAmmo = (int)Math.Floor(ab.CurrentAmmo * ammoReduction);
-                    Mod.Log.LogDebug($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
+                    Mod.Log.Info?.Write($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
                     ab.StatCollection.Set<int>(ModStats.AmmoBoxCurrentAmmo, newAmmo);
                 }
                 else
                 {
-                    Mod.Log.LogDebug($"Damaging component: {mc.UIName}");
+                    Mod.Log.Info?.Write($"Damaging component: {mc.UIName}");
 
                     ComponentDamageLevel damageLevel = ComponentDamageLevel.Destroyed;
                     if (mc.componentDef.CriticalComponent)
@@ -270,7 +269,7 @@ namespace FieldRepairs.Patches
                 {
                     damage = targetTurret.GetCurrentArmor(structureLocation);
                 }
-                Mod.Log.LogDebug($"Reducing armor in location {structureLocation} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing armor in location {structureLocation} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {
@@ -295,7 +294,7 @@ namespace FieldRepairs.Patches
                     // Never allow a hit to completely remove a limb or location
                     damage = targetTurret.GetCurrentStructure(structureLocation) - 1;
                 }
-                Mod.Log.LogDebug($"Reducing structure in location {structureLocation} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing structure in location {structureLocation} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {
@@ -358,7 +357,7 @@ namespace FieldRepairs.Patches
         {
             if (!__runOriginal) return;
 
-            Mod.Log.LogDebug("PME:AETV - entered.");
+            Mod.Log.Info?.Write("PME:AETV - entered.");
 
             // Note that OnEffectBegin will invoke *every* ApplyEffects, and expects the ApplyEfect to check that the target isn't null. 
             if (targetVehicle == null) 
@@ -367,7 +366,7 @@ namespace FieldRepairs.Patches
                 return;
             }
             
-            Mod.Log.LogDebug($" Applying PoorlyMaintainedEffect to unit: {targetVehicle.DisplayName}");
+            Mod.Log.Info?.Write($" Applying PoorlyMaintainedEffect to unit: {targetVehicle.DisplayName}");
             ModState.SuppressShowActorSequences = true;
 
             WeaponHitInfo hitInfo = new WeaponHitInfo(-1, -1, -1, -1, "", "", -1,
@@ -387,12 +386,12 @@ namespace FieldRepairs.Patches
                         (int)(Mod.Config.PerHitPenalties.MaxAmmoRemaining * 100f)
                         ) / 100f;
                     int newAmmo = (int)Math.Floor(ab.CurrentAmmo * ammoReduction);
-                    Mod.Log.LogDebug($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
+                    Mod.Log.Info?.Write($"Reducing ammoBox: {mc.UIName} from {ab.CurrentAmmo} x {ammoReduction} = {newAmmo}");
                     ab.StatCollection.Set<int>(ModStats.AmmoBoxCurrentAmmo, newAmmo);
                 }
                 else
                 {
-                    Mod.Log.LogDebug($"Damaging component: {mc.UIName}");
+                    Mod.Log.Info?.Write($"Damaging component: {mc.UIName}");
                     ComponentDamageLevel damageLevel = ComponentDamageLevel.Destroyed;
                     if (mc.componentDef.CriticalComponent)
                     {
@@ -421,7 +420,7 @@ namespace FieldRepairs.Patches
                 {
                     damage = targetVehicle.GetCurrentArmor(location);
                 }
-                Mod.Log.LogDebug($"Reducing armor in location {location} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing armor in location {location} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {
@@ -449,7 +448,7 @@ namespace FieldRepairs.Patches
                     // Never allow a hit to completely remove a limb or location
                     damage = targetVehicle.GetCurrentStructure(location) - 1;
                 }
-                Mod.Log.LogDebug($"Reducing structure in location {location} by {maxDamageRatio}% for {damage} points");
+                Mod.Log.Info?.Write($"Reducing structure in location {location} by {maxDamageRatio}% for {damage} points");
 
                 if (damage != 0)
                 {

@@ -61,6 +61,10 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <Private>False</Private>
     </Reference>
+    <Reference Include="IRBTModUtils">
+      <HintPath>$(DeployedModPath)\..\IRBTModUtils\IRBTModUtils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <Private>False</Private>
     </Reference>
